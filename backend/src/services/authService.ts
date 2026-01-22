@@ -7,6 +7,7 @@ import { AppError } from "../utils/AppError";
 import { findUserByEmail, createUser } from "../models/userModel";
 import { normalizeRole } from "../utils/normalize";
 import { requireEmail, requireRole, requireString } from "../utils/validators";
+import { logDebug, logInfo } from "../utils/logger";
 
 const buildAuthResponse = (
   user: { id: number; name: string; email: string; role: string }
@@ -23,6 +24,12 @@ const buildAuthResponse = (
 export const register = async (
   payload: RegisterRequestDto
 ): Promise<AuthResponseDto> => {
+  logInfo("Auth register service");
+  logDebug("Auth register input", {
+    name: payload.name,
+    email: payload.email,
+    role: payload.role,
+  });
   const name = requireString(payload.name, "name");
   const email = requireEmail(payload.email);
   const password = requireString(payload.password, "password");
@@ -47,6 +54,8 @@ export const register = async (
 export const login = async (
   payload: LoginRequestDto
 ): Promise<AuthResponseDto> => {
+  logInfo("Auth login service");
+  logDebug("Auth login input", { email: payload.email });
   const email = requireEmail(payload.email);
   const password = requireString(payload.password, "password");
 

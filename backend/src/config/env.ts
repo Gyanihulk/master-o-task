@@ -14,4 +14,5 @@ export const env = {
   adminSeedName: process.env.ADMIN_SEED_NAME ?? "Admin User",
   adminSeedEmail: process.env.ADMIN_SEED_EMAIL ?? "admin@masteroapp.com",
   adminSeedPassword: process.env.ADMIN_SEED_PASSWORD ?? "Password123",
+  logLevel: process.env.LOG_LEVEL ?? "info",
 };

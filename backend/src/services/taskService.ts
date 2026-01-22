@@ -6,6 +6,7 @@ import type {
 } from "../dto/task.dto";
 import { AppError } from "../utils/AppError";
 import { normalizeStatus } from "../utils/normalize";
+import { logDebug, logInfo } from "../utils/logger";
 import {
   optionalNumber,
   optionalString,
@@ -25,6 +26,8 @@ import { findUserById } from "../models/userModel";
 export const createNewTask = async (
   payload: CreateTaskRequestDto
 ): Promise<TaskResponseDto> => {
+  logInfo("Task create service");
+  logDebug("Task create input", payload);
   const title = requireString(payload.title, "title");
   const description = optionalString(payload.description) ?? null;
   const assignedTo = optionalNumber(payload.assigned_to) ?? null;
@@ -57,6 +60,7 @@ export const createNewTask = async (
 };
 
 export const getAllTasks = async (): Promise<TaskWithAssigneeResponseDto[]> => {
+  logInfo("Task list service");
   const tasks = await listTasksWithAssignee();
   return tasks.map((task) => ({
     id: task.id,
@@ -73,6 +77,8 @@ export const getAllTasks = async (): Promise<TaskWithAssigneeResponseDto[]> => {
 export const getTaskDetail = async (
   id: number
 ): Promise<TaskWithAssigneeResponseDto> => {
+  logInfo("Task detail service");
+  logDebug("Task detail input", { id });
   const task = await getTaskDetailById(id);
   if (!task) {
     throw new AppError("Task not found", 404);
@@ -93,6 +99,8 @@ export const updateExistingTask = async (
   id: number,
   payload: UpdateTaskRequestDto
 ): Promise<TaskResponseDto> => {
+  logInfo("Task update service");
+  logDebug("Task update input", { id, payload });
   const updates: UpdateTaskRequestDto = {};
 
   if (payload.title !== undefined) {
@@ -135,6 +143,8 @@ export const updateExistingTask = async (
 export const getTasksForUser = async (
   userId: number
 ): Promise<TaskResponseDto[]> => {
+  logInfo("Task list by user service");
+  logDebug("Task list by user input", { userId });
   const tasks = await listTasksByUserId(userId);
   return tasks.map((task) => ({
     id: task.id,
@@ -147,6 +157,8 @@ export const getTasksForUser = async (
 };
 
 export const getTaskRecord = async (id: number) => {
+  logInfo("Task record lookup service");
+  logDebug("Task record lookup input", { id });
   const task = await getTaskById(id);
   if (!task) {
     throw new AppError("Task not found", 404);
