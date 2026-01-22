@@ -56,6 +56,16 @@ See `docs/employee-task-tracker.postman_collection.json` for details.
 - Employees can only update the `status` of their assigned tasks.
 - Admins can create and edit all tasks.
 - Roles and statuses use uppercase enums (e.g., `ADMIN`, `IN_PROGRESS`).
+
+## Image-Based Deployment (ECR)
+This repo includes production Dockerfiles and a production compose file:
+- `backend/Dockerfile.prod`
+- `frontend/Dockerfile.prod`
+- `docker-compose.prod.yml`
+
+Use ECR with these repositories:
+- `703139106911.dkr.ecr.ap-south-1.amazonaws.com/tasks-backend`
+- `703139106911.dkr.ecr.ap-south-1.amazonaws.com/tasks-frontend`
 - On startup, the backend seeds a default admin if none exists:
   - Email: `admin@masteroapp.com`
   - Password: `Password123`
